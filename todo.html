@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" placeholder="enter task name" id="name">
+        <input type="button" value="AddTask" onclick='manageData()'>
+
+    </form>
+    <div id="msg"></div>
+
+    <h2>ToDo List</h2>
+    <table style="border:1px solid black;border-collapse:collapse;">
+        <thead style="border:1px solid red;">
+            <tr>
+                <td>S.No</td>
+                <td>Name</td>
+                <td>Action</td>
+            </tr>
+            <thead>
+            <tbody id="root">
+
+        <tbody>
+    </table>
+    <script>
+
+        console.log("hi");
+        let entryHasToBeEdited = false;
+        let id = '';
+        //localStorage.clear();
+        renderData();
+        
+        function manageData() {
+
+            // Clear the form input field
+            document.getElementById('msg').innerHTML = ''
+
+            // Get name from input field
+            let name = document.getElementById('name').value
+
+            // Name is not given
+            if (name === '') {
+                
+                // Show warning
+                document.getElementById('msg').innerHTML = 'please enter task name'
+
+            } else {
+                if (id == '') {
+                    //console.log('arr')
+                    let arr = JSON.parse(localStorage.getItem('crud'));
+                    //console.log('arr')
+
+                    if (arr == null) {
+                        let data = [name];
+                        localStorage.setItem('crud', JSON.stringify(data));
+                    }
+
+                    else {
+                        arr.push(name);
+                        //console.log('hii')
+                        localStorage.setItem('crud', JSON.stringify(arr));
+                    }
+
+                    // document.getElementById('name').value = ''
+                    renderData();
+                }
+                }
+
+        }
+
+        function editEntry() {
+
+            console.log("This is from editEntry");
+
+            if (id == '') {
+                    //console.log('arr')
+                    let arr = JSON.parse(localStorage.getItem('crud'));
+                    //console.log('arr')
+                    if (arr == null) {
+
+
+                        let data = [name];
+                        localStorage.setItem('crud', JSON.stringify(data));
+                    }
+                    else {
+
+                        arr.push(name);
+                        //console.log('hii')
+                        localStorage.setItem('crud', JSON.stringify(arr));
+                    }
+                    document.getElementById('name').value = '';
+                }
+        }
+
+        function renderData() {
+            let arr = JSON.parse(localStorage.getItem('crud'));
+
+            if (arr != null) {
+                let html = '';
+                let sno = 0;
+                for (let k in arr) {
+
+                    sno += 1;
+                    html = html +
+                        `<tr><td>${sno}</td><td>${arr[k]}</td><td><a href="javascript:void(0)"  onclick="remove(${k})">delete </a></td><td><a href="javascript:void(0)"onclick="edit(${k})">edit</a></td></tr>`;
+                }
+
+                document.getElementById('root').innerHTML = html;
+
+            }
+
+        }
+
+        function remove(rmid) {
+            //alert('hello');
+            if (confirm('are you sure')) {
+                let arr = JSON.parse(localStorage.getItem('crud'));
+
+                arr.splice(rmid, 1);
+                console.log(rmid)
+                localStorage.setItem('crud', JSON.stringify(arr));
+                renderData();
+
+            }
+
+        }
+
+        function edit(userId) {
+
+            entryHasToBeEdited = true;
+            
+            let users = JSON.parse(localStorage.getItem('crud'));
+
+            // let name = document.getElementById('name').value = arr[id];
+
+            // var index = arr.indexOf(name);
+            // if (index !== -1) {
+                
+            //     arr[index] = 'name';
+            //     localStorage.setItem('crud', JSON.stringify(arr));
+                
+            // }
+
+            // index=document.getElementById('name').value;
+            // console.log(index);
+
+            // localStorage.setItem('crud', JSON.stringify(arr));
+            
+            const userToBeEdited = [];
+
+            userToBeEdited['id'] = userId;
+            userToBeEdited['name'] = users[userId];
+            console.log(userToBeEdited)
+            
+            // renderData();
+        }
+
+
+</script>
+</body>
+
+</html>
