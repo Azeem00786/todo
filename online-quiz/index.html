@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style=background-color:#fefbd8;>
+    <div class="main-div">
+        <div class="forquestion">
+            <h2 class="QuestionAsked">Question 1: your question is here</h2>
+       
+            <ul>
+                <li>
+                    <input type="radio"  name="answer_option" id="ans1" class="answer">
+                    <label for="ans1" id="Option1">Advance-C</label><br>
+                </li>
+                <li>
+                    <input type="radio"  name="answer_option" id="ans2" class="answer">
+                    <label for="ans2" id="Option2">Python</label><br>
+                </li>
+                <li>
+                    <input type="radio"  name="answer_option" id="ans3" class="answer">
+                    <label for="ans3" id="Option3">Java</label><br>
+                </li>
+                <li>
+                    <input type="radio" name="answer_option" id="ans4" class="answer">
+                    <label for="ans4" id="Option4">MachineLearning</label><br>
+                </li>
+            </ul>
+        
+            <div class="btn">
+                <input type="button" value="Submit" id="Submit" onclick="Submit()">
+                
+                <!-- <button class="Submit">Submit</button> -->
+            </div>
+            <div id="ShowScore" class="ScoreArea"></div>
+            
+        </div>
+
+        </div>
+    </div>
+    <script src="script.js">
+        
+    </script>
+</body>
+
+</html>

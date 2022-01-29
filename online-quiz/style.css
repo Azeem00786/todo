@@ -1,0 +1,35 @@
+/* .main-div{
+    /* background-color: wheat; */
+
+.forquestion{
+    background-color: rgb(148, 255, 237);
+    display:grid;
+    place-items: ceter;
+  justify-content: center;
+  /* position: absolute; */
+  
+}
+#Submit {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    padding: 16px;
+    cursor: pointer;
+}
+#ShowScore{
+    /* display:grid; */
+    background-color: thistle;
+    margin-top: 3rem;
+    padding: 3rem 4rem;
+    box-shadow: turquoise;
+}
+.ScoreArea{
+    /* display:grid; */
+    display: none;
+}

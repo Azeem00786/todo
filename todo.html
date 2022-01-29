@@ -24,20 +24,15 @@
             align-items: center;
 
         }
-
-        /* .input {
-            margin: 10px;
-            border-radius: 1px;
-        } */
     </style>
-    
+
 </head>
 
 <body>
-    
+
     <div class="header">
         <header>
-            <h1>TO-DO LIST</h1>
+            <h1 id="heading">TO-DO LIST</h1>
         </header>
     </div>
 
@@ -46,11 +41,11 @@
             <form>
                 <div class="row">
                     <div class="col-md-3">
-                        <input type="text" placeholder="Enter task name" class="form-control form-control-lg" id="name">
+                        <input type="text" placeholder="Enter Task Name" class="form-control form-control-lg" id="name">
                     </div>
                     <div class="col-md-2">
-                        <input type="button" value="AddTask" class="btn btn-primary btn-lg" onclick='manageData()'
-                            id="add">
+                        <input type="button" value="AddTask" class="btn btn-primary btn-lg" id="taskadd"
+                            onclick='manageData()' id="add">
                     </div>
                 </div>
             </form>
@@ -58,8 +53,9 @@
         <div id="msg"></div>
         <br>
         <div>
-            <h2>List of Tasks</h2>
-            <table class="table table-bordered">
+            <h2>List Of Tasks</h2><br>
+
+            <table class="table table-bordered" id="task-table">
                 <thead>
                     <tr>
                         <td>S.No</td>
@@ -71,29 +67,29 @@
                     <tbody id="root">
                 <tbody>
             </table>
+            <div id='notask'>No Task Available</div>
         </div>
     </div>
     <script>
 
+
         var entryHasToBeEdited = false;
         var userToBeEdited = null;
-
         let id = '';
         //localStorage.clear();
         renderData();
-
         function manageData() {
 
             if (entryHasToBeEdited == true) {
+
                 editEntry();
+
                 return;
             }
-
             // Clear the form input field
-
-
             // Get name from input field
             let name = document.getElementById('name').value
+
 
             // Name is not given
             if (name === '') {
@@ -101,7 +97,9 @@
                 // Show warning
                 document.getElementById('msg').innerHTML = 'please enter task name'
 
+
             } else {
+
                 if (id == '') {
                     //console.log('arr')
                     let arr = GetItemsFromLocalStorage('crud');
@@ -117,46 +115,48 @@
                         //console.log('hii')
                         localStorage.setItem('crud', JSON.stringify(arr));
 
+
                     }
 
                     // document.getElementById('name').value = ''
                     renderData();
                     document.getElementById('name').value = ''
                 }
+
             }
 
 
         }
         //Here we are getting the data from our localstorage
-        function GetItemsFromLocalStorage(key){
-            
-          let arr = JSON.parse(localStorage.getItem(key));
-          
-          return arr;
-            
+        function GetItemsFromLocalStorage(key) {
+
+            let arr = JSON.parse(localStorage.getItem(key));
+
+            return arr;
+
         }
-       
+
         function editEntry() {
 
-            console.log("This is from editEntry");
-            console.log(userToBeEdited);
+            // console.log("This is from editEntry");
+            // console.log(userToBeEdited);
 
             // Get entry from localStorage
-           // GetItemsFromLocalStorage()
+            // GetItemsFromLocalStorage()
             let entry = GetItemsFromLocalStorage('crud');
 
             entry[userToBeEdited.id] = document.getElementById('name').value;
-            
+
             localStorage.setItem('crud', JSON.stringify(entry));
 
             entryHasToBeEdited = false;
+
             renderData();
             document.getElementById('name').value = ''
         }
 
         function renderData() {
-            let arr =GetItemsFromLocalStorage('crud');
-
+            let arr = GetItemsFromLocalStorage('crud');
 
             if (arr != null) {
                 let html = '';
@@ -170,8 +170,23 @@
 
                 document.getElementById('root').innerHTML = html;
 
-            }
+                document.getElementById('task-table').style.display = 'block';
+                /*no need to display this div because this div is used for display 
+                in case there is no task in list*/
+                document.getElementById('notask').style.display = 'none'
 
+            } if (arr.length <= 0) {
+                //  console.log('hii')
+
+                //used for hide table
+                document.getElementById('task-table').style.display = 'block';
+                //now we will use notask div for display no task message 
+                document.getElementById('notask').style.display = '';
+
+            }
+            //when user edited his task successfully then this code set button name AddTask again
+            var GetTextOfButton = document.getElementById('taskadd');
+            GetTextOfButton.value = 'AddTask';
         }
 
         function remove(rmid) {
@@ -180,8 +195,9 @@
                 let arr = GetItemsFromLocalStorage('crud');
 
                 arr.splice(rmid, 1);
-                console.log(rmid)
+                //   console.log(rmid)
                 localStorage.setItem('crud', JSON.stringify(arr));
+
                 renderData();
 
             }
@@ -190,24 +206,10 @@
 
         function edit(userId) {
 
+
             entryHasToBeEdited = true;
 
             let users = GetItemsFromLocalStorage('crud');
-
-            // let name = document.getElementById('name').value = arr[id];
-
-            // var index = arr.indexOf(name);
-            // if (index !== -1) {
-
-            //     arr[index] = 'name';
-            //     localStorage.setItem('crud', JSON.stringify(arr));
-
-            // }
-
-            // index=document.getElementById('name').value;
-            // console.log(index);
-
-            // localStorage.setItem('crud', JSON.stringify(arr));
 
             const user = [];
 
@@ -215,11 +217,15 @@
             user['name'] = users[userId];
 
             userToBeEdited = user;
-           
+
 
             // populateInputWithName
             document.getElementById('name').value = user.name;
+            //change AddTask button name with new name Update
+            var GetTextOfButton = document.getElementById('taskadd');
+            GetTextOfButton.value = 'Update';
         }
+
 
     </script>
 </body>
